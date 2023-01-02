@@ -1,0 +1,8 @@
+1) select
+2) insert
+3) delete
+	-- row
+	-- table
+		-- with metadata
+		-- without metadata
+4) updata
