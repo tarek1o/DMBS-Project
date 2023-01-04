@@ -134,35 +134,44 @@ int menus(vector<string>menu) {
 
         case 13: // Enter Character
             system("cls"); // To remove the previous message that print when the user pressed enter
-            switch (position) {
-            case 0: //Create New Database
-                return 0;
-                break;
-
-            case 1: // Select Database
-                return 1;
-                break;
-
-            case 2: // Delete Database
-                return 2;
-                break;
-
-            case 3: // exit
-                return 3;
-                break;
-            }
+            return position;
             break;
 
         case 27: //Exit character
             system("cls");
-            return 3;
+            return position;
             break;
         }
     } while (flag == 0);
 }
 
+void submenu(string DBName, vector<string>menu, vector<string>CreateDatabaseMenu) {
+    Database d;
+    d.setDatabase(DBName);
+
+    system("cls");
+    int choice = menus(CreateDatabaseMenu);
+    system("cls");
+    switch (choice)
+    {
+    case 0: // new table
+        d.CreateTable();
+        submenu(DBName, menu, CreateDatabaseMenu);
+        break;
+
+    case 1: //main menu
+        show(menu, CreateDatabaseMenu);
+        break;
+
+    case 2: //exit
+        cout << "Exit" << endl;
+        break;
+    }
+}
+
 void show(vector<string>menu, vector<string>CreateDatabaseMenu) {
     Database d;
+    string DBName;
 
     int position = 0, choice;
     choice = menus(menu);
@@ -170,32 +179,10 @@ void show(vector<string>menu, vector<string>CreateDatabaseMenu) {
 
     switch (choice) {
     case 0: // create Database
-        d.CreateDatabase();
+        DBName = d.CreateDatabase();
 
-        system("cls");
-
-        choice = menus(CreateDatabaseMenu);
-
-        system("cls");
-
-        switch (choice)
-        {
-        case 0: // new table
-            d.CreateTable();
-            break;
-
-        case 1: //relationship
-
-            break;
-
-        case 2: //main menu
-            show(menu, CreateDatabaseMenu);
-            break;
-
-        case 3: //exit
-            cout << "Exit" << endl;
-            break;
-        }
+        submenu(DBName, menu, CreateDatabaseMenu);
+        
 
         break;
 

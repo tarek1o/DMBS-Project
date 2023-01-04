@@ -29,7 +29,6 @@ public:
 		gotoxy(22, 4);
 		cout << "Enter Table Name: ";
 		getline(cin, TableName);
-
 		TableName = lowerCase(trim(TableName));
 
 		if (!checkString(TableName) || TableName == "tables") {

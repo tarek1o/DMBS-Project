@@ -1,6 +1,7 @@
 #include<iostream>
 #include<cctype>
 #include<string>
+#include<vector>
 using namespace std;
 
 string lowerCase(string name) {
@@ -53,4 +54,32 @@ string trim(string str) {
 	}
 	
 	return str.substr(start, (end - start + 1));
+}
+
+vector<string> split(string target) {
+	int start = 0, end;
+	string temp = lowerCase(trim(target));
+	vector<string>final;
+	target = "";
+	//To remove any extra spaces between words
+	for (int i = 0; i < temp.length(); i++) {
+		if (temp[i] != ' ' && temp[i] != '\t') {
+			target += temp[i];
+		}
+		else
+		{
+			if (target[target.length() - 1] != ' ') {
+				target += " ";
+			}
+		}
+	}
+	//To push each word in the vector
+	for (int i = 0; i < target.length(); i++) {
+		if (target[i] == ' ' || i == target.length() - 1) {
+			end = i;
+			final.push_back(trim(target.substr(start, end - start + 1)));
+			start = i + 1;
+		}
+	}
+	return final;
 }

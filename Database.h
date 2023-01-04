@@ -27,13 +27,15 @@ public:
 		collection.close();
 	}
 
-	void CreateDatabase() {
+	void setDatabase(string _DBName) {
+		DBName = _DBName;
+	}
+
+	string CreateDatabase() {
 		string temp;
 		gotoxy(22, 4);
 		cout << "Enter Database Name: ";
-		cin.ignore();
 		getline(cin, DBName);
-
 		DBName = lowerCase(trim(DBName));
 
 		if (!checkString(DBName)) {
@@ -68,6 +70,8 @@ public:
 		gotoxy(22, 6);
 		cout << "Press any key to continue....";
 		_getch();
+		
+		return DBName;
 	}
 
 	void CreateTable() {
