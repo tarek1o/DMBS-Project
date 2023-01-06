@@ -126,6 +126,5 @@ public:
 			row ++;
 		} while (ch != 'n');
 	}
-
 };
 

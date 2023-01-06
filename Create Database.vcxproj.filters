@@ -33,6 +33,9 @@
     <ClCompile Include="Column.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Queries.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Database.h">
@@ -48,6 +51,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Column.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Queries.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

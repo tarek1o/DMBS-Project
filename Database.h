@@ -79,23 +79,31 @@ public:
 		t.CreateTable();
 	}
 
-	void ShowDatabases() {
-		string temp;
-		if (names.size() == 0) {
-			cout << "No Databases to show" << endl;
-		}
-		else
-		{
-			for (int i = 0; i < names.size(); i++) {
-				cout << names[i] << endl;
-			}
-		}
+	vector<string> ShowDatabases() {
+		return names;
 	}
 
 	void DeleteDatabase(string target) {
+		// 1) delete the name of target database from Databases.txt
+		collection.open("temp.txt", ios::app);
+		for (int i = 0; i < names.size(); i++) {
+			if (names[i] != target) {
+				collection << names[i] << endl;
+			}
+		}
+		collection.close();
+		remove("Databases.txt");
+		rename("temp.txt", "Databases.txt");
+
+		// 2) delete the folder of target database
 		int x = system(("rmdir /s /q " + target).c_str());
 		if (x == 0) {
+			gotoxy(22, 9 + names.size());
+			textattr(0x0c);
 			cout << target << " Database is deleted Successfully" << endl;
+			gotoxy(22, 10 + names.size());
+			cout << "Press any key to back to main menu" << endl;
+			_getch();
 		}
 		else
 		{

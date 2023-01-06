@@ -132,12 +132,14 @@
     <ClCompile Include="Custome Functions.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="Helper Functions.cpp" />
+    <ClCompile Include="Queries.cpp" />
     <ClCompile Include="Table.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Column.h" />
     <ClInclude Include="Custome Functions.h" />
     <ClInclude Include="Database.h" />
+    <ClInclude Include="Queries.h" />
     <ClInclude Include="Helper Functions.h" />
     <ClInclude Include="Table.h" />
   </ItemGroup>
