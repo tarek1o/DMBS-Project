@@ -114,7 +114,7 @@ public:
 			ColumnDatatype(row);
 			collection.open((DBName + "/" + TableName + ".txt").c_str(), ios::app);
 			//collection << ColumnName + "(" + ColumnType + ")" << "		"; // 2 tabs
-			collection << ColumnName << "		"; // 2 tabs
+			collection << ColumnName << "       "; // 7 spaces
 			collection.close();
 			row++;
 			gotoxy(20, row);

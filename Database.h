@@ -35,7 +35,7 @@ public:
 		string temp;
 		gotoxy(22, 4);
 		cout << "Enter Database Name: ";
-		getline(cin, DBName);
+		cin >> DBName;
 		DBName = lowerCase(trim(DBName));
 
 		if (!checkString(DBName)) {
@@ -46,6 +46,11 @@ public:
 			_getch();
 			system("cls");
 			return CreateDatabase();
+		}
+
+		if (DBName == "databases" || DBName == "temp") {
+			gotoxy(22, 5);
+			cout << "Reserved name" << endl;
 		}
 
 		for (int i = 0; i < names.size(); i++) {
@@ -68,9 +73,7 @@ public:
 		gotoxy(22, 5);
 		cout << DBName << " Database is created Successfully" << endl;
 		gotoxy(22, 6);
-		cout << "Press any key to continue....";
-		_getch();
-		
+		system("pause");		
 		return DBName;
 	}
 
@@ -81,6 +84,10 @@ public:
 
 	vector<string> ShowDatabases() {
 		return names;
+	}
+
+	vector<string> ShowTables(string _DBName) {
+		return t.ShowTables(_DBName);
 	}
 
 	void DeleteDatabase(string target) {
@@ -109,5 +116,9 @@ public:
 		{
 			cout << "Error: " << target << " cannot be deleted" << endl;
 		}
+	}
+
+	void DeleteTable(string DBName, string target) {
+		t.DeleteTable(DBName, target);
 	}
 };

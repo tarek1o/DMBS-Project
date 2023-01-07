@@ -83,3 +83,16 @@ vector<string> split(string target) {
 	}
 	return final;
 }
+
+int getIndex(vector<string> targetVector, string target)
+{
+	auto it = find(targetVector.begin(), targetVector.end(), target);
+	if (it != targetVector.end())
+	{
+		int index = it - targetVector.begin();
+		return index;
+	}
+	else {
+		return -1;
+	}
+}

@@ -155,6 +155,7 @@ void submenu(string DBName, vector<string>menu, vector<string>CreateDatabaseMenu
     switch (choice)
     {
     case 0: // new table
+        cin.ignore();
         d.CreateTable();
         submenu(DBName, menu, CreateDatabaseMenu);
         break;
@@ -214,8 +215,9 @@ void Deletion(vector<string>result, vector<string>menu, vector<string>CreateData
     }
 }
 
+//Exception handling
 void askQuery(vector<string>result, int choice) {
-    vector<string>menuQuery = { "New Query", "Main Menu(Home)", "Exit(ESC)" };
+    vector<string>menuQuery = { "New Query", "Add Table", "Remove Table", "Main Menu(Home)", "Exit(ESC)"};
     vector<string>menu = { "Create New Database", "Select Database", "Delete Database", "Exit(ESC)" };
     vector<string>CreateDatabaseMenu = { "New Table", "Main Menu(Home)", "Exit(ESC)" };
 
@@ -230,13 +232,65 @@ void askQuery(vector<string>result, int choice) {
         cout << "Enter a query: ";
         getline(cin, query);
         QueryResult(query, result, choice);
+        gotoxy(22, 7);
         system("pause");
         askQuery(result, choice);
     }
-    else if(menuQuery[temp] == "Main Menu(Home)") {
+    else if (menuQuery[temp] == "Add Table") {
+        system("cls");
+        Database d;
+        d.setDatabase(result[choice]);
+        cin.ignore();
+        d.CreateTable();
+        askQuery(result, choice);
+    }
+    else if (menuQuery[temp] == "Remove Table") {
+        system("cls");
+        Database d;
+        vector<string> tables = d.ShowTables(result[choice]);
+
+        if (tables.size() != 0) {
+            tables.push_back("Main Menu(Home)");
+            tables.push_back("Exit");
+
+            int tab = menus(tables);
+            cout << tab << endl;
+            if (tables[tab] == "Main Menu(Home)") {
+                askQuery(result, choice);
+            }
+            else if (tables[tab] == "Exit") {
+                system("cls");
+                cout << "Exit" << endl;
+            }
+            else {
+                gotoxy(22, 6 + tables.size());
+                textattr(0x0d);
+                cout << "Are you sure to delete this Table?(y/n)";
+                char ch = _getch();
+                cout << endl;
+                ch = tolower(ch);
+                if (ch != 'n') {
+                    d.DeleteTable(result[choice], tables[tab]);
+                }
+                else {
+                    askQuery(result, choice);
+                }
+            }
+        }
+        else {
+            gotoxy(22, 6);
+            cout << "No Tables are found" << endl;
+            gotoxy(22, 7);
+            system("pause");
+        }
+        askQuery(result, choice);
+    }
+    else if (menuQuery[temp] == "Main Menu(Home)") {
+        system("cls");
         show(menu, CreateDatabaseMenu);
     }
     else {
+        system("cls");
         cout << "Exit" << endl;
     }
 }
@@ -255,18 +309,16 @@ void show(vector<string>menu, vector<string>CreateDatabaseMenu) {
     {
         case 0: // create Database
             DBName = d.CreateDatabase();
-
             submenu(DBName, menu, CreateDatabaseMenu);
-        
-
             break;
 
         case 1: // select database
             result = d.ShowDatabases();
             if (result.size() == 0) {
+                gotoxy(22, 6);
                 cout << "No database found" << endl;
-                cout << "Press any key to back to main menu" << endl;
-                _getch();
+                gotoxy(22, 7);
+                system("pause");
                 system("cls");
                 show(menu, CreateDatabaseMenu);
             }
@@ -275,21 +327,20 @@ void show(vector<string>menu, vector<string>CreateDatabaseMenu) {
                 result.push_back("Exit");
                 choice = menus(result);
 
-                if (choice == result.size() - 2) {
+                if (choice == result.size() - 2) { // main menu
                     system("cls");
                     show(menu, CreateDatabaseMenu);
 
                 }
-                else if (choice == result.size() - 1) {
+                else if (choice == result.size() - 1) { //exit
+                    system("cls");
                     cout << result[choice] << endl;
                     break;
                 }
                 else {
                     askQuery(result, choice);
-                }
-                
+                } 
             }
-        
             break;
 
         case 2: //Delete Database

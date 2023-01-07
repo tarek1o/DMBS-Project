@@ -10,3 +10,4 @@ string upperCase(string name);
 bool checkString(string target);
 string trim(string str);
 vector<string> split(string target);
+int getIndex(vector<string> v, string K);
