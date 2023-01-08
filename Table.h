@@ -97,27 +97,35 @@ public:
 	void DeleteTable(string _DBName, string target) {
 		DBName = _DBName;
 		string temp;
-		collection.open(DBName + "/temp.txt");
-		while (collection >> temp)
+		collection.open(DBName + "/Tables.txt");
+		while (getline(collection, temp))
 		{
 			tables.push_back(temp);
 		}
 
-		
-
-		// 1) delete the name of target table from Tables.txt
-		collection.open(DBName + "/temp.txt", ios::app);
-		for (int i = 0; i < tables.size(); i++) {
-			if (tables[i] != target) {
-				collection << tables[i] << endl;
-			}
-		}
 		collection.close();
-		remove((DBName + "/Tables.txt").c_str());
-		rename((DBName + "/temp.txt").c_str(), (DBName + "/Tables.txt").c_str());
 
-		// 2) delete the folder of target database
-		remove((DBName + "/" + target + ".txt").c_str());
+		if (getIndex(tables, target) == -1 || tables.size() == 0) {
+			gotoxy(22, 7);
+			cout << "This table is not found" << endl;
+			gotoxy(22, 8);
+			system("pause");
+		}
+		else {
+			// 1) delete the name of target table from Tables.txt
+			collection.open(DBName + "/temp.txt", ios::app);
+			for (int i = 0; i < tables.size(); i++) {
+				if (tables[i] != target) {
+					collection << tables[i] << endl;
+				}
+			}
+			collection.close();
+			remove((DBName + "/Tables.txt").c_str());
+			rename((DBName + "/temp.txt").c_str(), (DBName + "/Tables.txt").c_str());
+
+			// 2) delete the folder of target database
+			remove((DBName + "/" + target + ".txt").c_str());
+		}
 	}
 };
 

@@ -215,7 +215,6 @@ void Deletion(vector<string>result, vector<string>menu, vector<string>CreateData
     }
 }
 
-//Exception handling
 void askQuery(vector<string>result, int choice) {
     vector<string>menuQuery = { "New Query", "Add Table", "Remove Table", "Main Menu(Home)", "Exit(ESC)"};
     vector<string>menu = { "Create New Database", "Select Database", "Delete Database", "Exit(ESC)" };
@@ -230,6 +229,7 @@ void askQuery(vector<string>result, int choice) {
         cout << "You use " << result[choice] << " Database" << endl;
         gotoxy(22, 5);
         cout << "Enter a query: ";
+        cin.ignore();
         getline(cin, query);
         QueryResult(query, result, choice);
         gotoxy(22, 7);

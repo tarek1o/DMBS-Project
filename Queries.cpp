@@ -65,16 +65,19 @@ void creation(vector<string>query) {
 
 void drop(string DBName, vector<string> splitedQuery) {
 	Database d;
-	d.setDatabase(DBName);
 	if (splitedQuery[1] == "table") {
 		if (splitedQuery.size() == 3) {
 			d.DeleteTable(DBName, splitedQuery[2]);
+			gotoxy(22, 7);
+			cout << "One table is deleted" << endl;
 		}
 		else {
+			gotoxy(22, 7);
 			cout << "Incorrect syntax" << endl;
 		}
 	}
 	else {
+		gotoxy(22, 7);
 		cout << "Incorrect syntax" << endl;
 	}
 }
@@ -94,7 +97,7 @@ void truncate(string DBName, vector<string>splitedQuery) {
 			collection.open(DBName + "/" + "temp.txt", ios::app);
 			collection << metaData << endl;
 			collection.close();
-			cout << rows.size() - 1 << " rows effected" << endl;
+			cout << rows.size() << " rows effected" << endl;
 			remove((DBName + "/" + splitedQuery[2] + ".txt").c_str());
 			rename((DBName + "/temp.txt").c_str(), (DBName + "/" + splitedQuery[2] + ".txt").c_str());
 		}
