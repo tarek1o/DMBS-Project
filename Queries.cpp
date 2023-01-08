@@ -163,18 +163,19 @@ void the_insert(vector<string>the_query, string db_name) {
 	int into_index = getIndex(the_query, "into");
 	int values_index = getIndex(the_query, "values");
 
-	if (the_query[0] == "insert" && the_query[1] == "into") {
+	if (the_query[1] == "into") {
 		string the_adderecord;
-		outfile.open((db_name + "/" + the_query[into_index + 1] + ".txt").c_str(), ios::app);
-		while (j > open_index && j < close_index) {
-			the_adderecord += the_query[j];
+		outfile.open((db_name + "/" + the_query[2] + ".txt").c_str(), ios::app);
+		outfile << endl;
+		for (int i = values_index + 1; i < the_query.size(); i++) {
+			outfile << the_query[i] << "       ";
 		}
-		outfile << "\n" << the_adderecord;
 		outfile.close();
 		cout << "one row affected";
+
 	}
 	else {
-		cout << "please enter another guery";
+		cout << "Invalid Query" << endl;
 	}
 }
 
