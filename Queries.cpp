@@ -3,12 +3,15 @@
 #include<cctype>
 #include<string>
 #include <conio.h>
+#include<stdio.h.>
 #include<windows.h>
 #include<vector>
 #include"Database.h"
 #include"Table.h"
 #include"Custome Functions.h"
 #include"Helper Functions.h"
+
+using namespace std;
 
 void creation(vector<string>query) {
 	fstream collection;
@@ -48,9 +51,6 @@ void creation(vector<string>query) {
 				gotoxy(22, 7);
 				cout << "Incorrect syntax" << endl;
 			}
-		}
-		else if (query[1] == "table") { //table
-			
 		}
 		else {
 			gotoxy(22, 7);
@@ -104,73 +104,85 @@ void truncate(string DBName, vector<string>splitedQuery) {
 	}
 }
 
-void SelectQuery(vector<string>the_query) {
+void SelectQuery(vector<string>the_query, string db_name) {
+	int where_indx = getIndex(the_query, "where");
+	int from_index = getIndex(the_query, "from");
+	int equal_index = getIndex(the_query, "=");
 	fstream myfile;
-	string db_name;
-	//string file_name;
 	int file_num_id;
 	int the_size = the_query.size();
-	//select * from emp1(table)
-	if (the_query[1] == "*" && the_size == 4) {
-		cout << "please enter Database name";
-		getline(cin, db_name);
-		myfile.open(db_name + "/" + the_query[3] + ".txt", ios::app);
-		if (myfile.is_open()) {
-			string data;
-			while (getline(myfile, data)) {
-				cout << data << "\n";
+	cout << the_size;
+
+	if (the_size > 0) {
+		//select * from emp1(table)
+		if (the_query[1] == "*" && the_size == 4) {
+			myfile.open(db_name + "/" + the_query[from_index + 1] + ".txt", ios::app);
+			if (myfile.is_open()) {
+				string data;
+				while (getline(myfile, data)) {
+					cout << data << "\n";
+				}
+				myfile.close();
 			}
-			myfile.close();
+			else { cout << "no such table check help in main menu"; }
 		}
-		else { cout << "no such table check help in main menu"; }
-	}
-	// select emp where id = 1 from emp1=> index 5
-	else if (the_query[1] != "*" && the_query[2] == "where" && the_size == 6) {
-		cout << "please enter Database name";
-		getline(cin, db_name);
-		file_num_id = stoi(the_query[5]);
-		if (file_num_id <= 0) {
-			cout << " id must be > 0 " << endl;
-		}
-		myfile.open(db_name + "/" + the_query[7] + ".txt", ios::app);
-		if (myfile.fail()) {
-			cout << "cant open file" << endl;
-		}
-		int current_id = 0;
-		string output;
-		while (!myfile.eof()) {
-			current_id++;
-			getline(myfile, output);
-			if (current_id == file_num_id) break;
-			if (current_id < file_num_id) {
-				cout << "this record not found";
+		// select record from emp2 where id = 1
+		else if (the_query[1] != "*") {
+			file_num_id = stoi(the_query[equal_index + 1]);
+			if (file_num_id <= 0) {
+				cout << " id must be > 0 " << endl;
 			}
-			else
-				cout << output << endl;
-			myfile.close();
+			myfile.open(db_name + "/" + the_query[from_index + 1] + ".txt", ios::app);
+			if (myfile.fail()) {
+				cout << "cant open file" << endl;
+			}
+			int current_id = 0;
+			string output;
+			while (!myfile.eof()) {
+				current_id++;
+				getline(myfile, output);
+				if (current_id == file_num_id) break;
+				if (current_id < file_num_id) {
+					cout << "this record not found";
+				}
+				else
+					cout << output << endl;
+				myfile.close();
+			}
 		}
 	}
+	else cout << "the query must be length greater than 0";
+
 }
 
 void the_insert(vector<string>the_query, string db_name) {
-	std::ofstream outfile;
-	if (the_query[0] == "insert" && the_query[1] == " into") {
-		//cout << the_query[1];
-		string the_addcolumn;
-		outfile.open(db_name + "/" + the_query[2] + ".txt", std::ios_base::app);
-		cout << "please enter column values :    attribute: val    attribute : val ";
-		getline(cin, the_addcolumn);
-		outfile << "\n" << the_addcolumn;
+	fstream outfile;
+	int j = 0;
+	int open_index = getIndex(the_query, "(");
+	int close_index = getIndex(the_query, ")");
+	int into_index = getIndex(the_query, "into");
+	int values_index = getIndex(the_query, "values");
+
+	if (the_query[0] == "insert" && the_query[1] == "into") {
+		string the_adderecord;
+		outfile.open((db_name + "/" + the_query[into_index + 1] + ".txt").c_str(), ios::app);
+		while (j > open_index && j < close_index) {
+			the_adderecord += the_query[j];
+		}
+		outfile << "\n" << the_adderecord;
 		outfile.close();
 		cout << "one row affected";
+	}
+	else {
+		cout << "please enter another guery";
 	}
 }
 
 void QueryResult(string query, vector<string>result, int choice) {
 	vector<string>splitedQuery = split(query);
-
+	cout << "first one is " << splitedQuery[0] << endl;
 	if (splitedQuery[0] == "select") {
-		SelectQuery(splitedQuery);
+		SelectQuery(splitedQuery, result[choice]);
 	}
 	else if (splitedQuery[0] == "insert") {
 		the_insert(splitedQuery, result[choice]);
@@ -193,6 +205,6 @@ void QueryResult(string query, vector<string>result, int choice) {
 	else 
 	{
 		gotoxy(22, 8);
-		cout << "Invalid Query" << endl;
+		cout << "Invalid Query sdawd" << endl;
 	}
 }

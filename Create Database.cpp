@@ -15,7 +15,9 @@
 using namespace std;
 
 int main()
-{	vector<string>menu = { "Create New Database", "Select Database", "Delete Database", "Exit(ESC)" };
+{	
+	
+	vector<string>menu = { "Create New Database", "Select Database", "Delete Database", "Exit(ESC)" };
 	vector<string>CreateDatabaseMenu = { "New Table", "Main Menu(Home)", "Exit(ESC)" };
 
 	//login();

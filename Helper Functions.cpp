@@ -1,8 +1,11 @@
 #include<iostream>
+#include<fstream>
 #include<cctype>
 #include<string>
 #include <conio.h>
 #include<windows.h>
+#include <cstdio>
+#include <stdio.h>
 #include<vector>
 #include"Database.h"
 #include"Queries.h"
@@ -229,7 +232,7 @@ void askQuery(vector<string>result, int choice) {
         cout << "You use " << result[choice] << " Database" << endl;
         gotoxy(22, 5);
         cout << "Enter a query: ";
-        cin.ignore();
+        //cin.ignore();
         getline(cin, query);
         QueryResult(query, result, choice);
         gotoxy(22, 7);
